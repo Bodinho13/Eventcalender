@@ -1,0 +1,102 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.calenderWeek {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.dateTile {
+  width: 80px;
+  height: 80px;
+  border: 1px solid white;
+  padding: 2px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc(13.7% - 1px);
+}
+
+.ew-label {
+  font-size: larger;
+  padding: 5px;
+  display: flex;
+}
+
+.ew-label-text {
+  width: 200px;
+  text-align: left;
+}
+
+.ew-input-check {
+  margin-right: 4px;
+  margin-left: 10px;
+  margin-top: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+.ew-input-text {
+  width: 300px;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menu-item {
+  margin: 2px 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+.pastDate {
+  color: #888;
+}
+
+.textTile {
+  padding: 3px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc(13.7% - 1px);
+  text-align: center;
+}
