@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { EwLabelInputBox } from "./EwLabelInputBox";
 
 
 const EwEventForm = () => {
@@ -44,38 +45,30 @@ const EwEventForm = () => {
         <div>
             <h2>Neues Event anlegen</h2>
             <form action={submitEvent}>
-                <label className="ew-label">
-                    <span className="ew-label-text">Name des Events:</span>
-                    <input className="ew-input-text" type="text" name="eventName" value={event?.eventName || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Veranstalter:</span>
-                    <input className="ew-input-text" type="text" name="host" value={event?.host || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Datum:</span>
-                    <input className="ew-input-text" type="date" name="date" value={String(event?.date) || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Startzeit:</span>
-                    <input className="ew-input-text" type="time" name="startTime" value={event?.startTime || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Ende:</span>
-                    <input className="ew-input-text" type="time" name="endTime" value={event?.endTime || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label"> 
-                    <span className="ew-label-text">Kategorie:</span>
-                    <input className="ew-input-text" type="text" name="eventCategory" value={event?.eventCategory || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Eintritt:</span>
-                    <input className="ew-input-text" type="number" name="entryFee" value={event?.entryFee || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
-                <label className="ew-label">
-                    <span className="ew-label-text">Weitere Infos:</span>
-                    <input className="ew-input-text" type="textarea" name="additionalInfo" value={event?.additionalInfo || ""} onChange={(e) => changeEventData(e)}/>
-                </label>
+                <EwLabelInputBox labelVal="Name des Events:" inputName="eventName" inputVal={event?.eventName} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} required={true} />
+
+                <EwLabelInputBox labelVal="Veranstalter:" inputName="host" inputVal={event?.host} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} required={true} />
+
+                <EwLabelInputBox labelVal="Datum:" inputName="date" inputVal={event?.date} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="date" required={true} />
+                    
+                <EwLabelInputBox labelVal="Startzeit:" inputName="startTime" inputVal={event?.startTime} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="time" required={true} />
+                
+                <EwLabelInputBox labelVal="Ende:" inputName="endTime" inputVal={event?.endTime} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="time" />
+
+                <EwLabelInputBox labelVal="Kategorie:" inputName="eventCategory" inputVal={event?.eventCategory} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} />
+
+                <EwLabelInputBox labelVal="Eintritt:" inputName="entryFee" inputVal={event?.entryFee} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="number" required={true} />
+                
+                <EwLabelInputBox labelVal="Weitere Infos:" inputName="additionalInfo" inputVal={event?.additionalInfo} 
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="textarea" />
+                
                 <label className="ew-label">
                     <span className="ew-label-text">Extras:</span>
                     <input className="ew-input-check" type="checkbox" name="comedyshow"/> Comedy-Show
@@ -103,7 +96,7 @@ const EwEventForm = () => {
         </div>
     )
 }
-//TODO: Kategorie --> selectbox, start- & endZeit --> string
+//TODO: Kategorie --> selectbox
 
 export {
     EwEventForm
