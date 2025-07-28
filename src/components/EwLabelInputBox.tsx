@@ -1,7 +1,7 @@
 
 
 const EwLabelInputBox = (props: any) => {
-    const {labelVal, inputName, inputVal, handleChange, inputType = "text", required = false, min = 0} = props;
+    const {labelVal, inputName, inputVal, handleChange, inputType = "text", required = false, min = 0, step = "1"} = props;
 
     return (
         <label className="ew-label">
@@ -15,6 +15,7 @@ const EwLabelInputBox = (props: any) => {
                 onChange={handleChange} 
                 required={required} 
                 min={min}
+                step={step}
             />
         </label>
     );
