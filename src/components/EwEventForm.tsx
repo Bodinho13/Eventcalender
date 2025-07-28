@@ -35,7 +35,6 @@ const EwEventForm = () => {
         const value: any = target.value;
         
         setEvent(values => ({...values, [name]: value}))
-        console.log(event, value);
     }
 
     const changeExtras = (e: React.ChangeEvent) => {
@@ -52,14 +51,15 @@ const EwEventForm = () => {
         console.log(event);
     }
 
-    const submitEvent = (formData: any) => {
-        console.log(formData);
+    const submitEvent = (event: React.FormEvent) => {
+        console.log(event);
+        event.preventDefault();
     }
 
     return(
         <div>
             <h2>Neues Event anlegen</h2>
-            <form action={submitEvent}>
+            <form onSubmit={submitEvent}>
                 <EwLabelInputBox labelVal="Name des Events:" inputName="eventName" inputVal={event?.eventName} 
                     handleChange={(e: React.ChangeEvent) => changeEventData(e)} required={true} />
 
@@ -79,7 +79,7 @@ const EwEventForm = () => {
                     handleChange={(e: React.ChangeEvent) => changeEventData(e)} />
 
                 <EwLabelInputBox labelVal="Eintritt:" inputName="entryFee" inputVal={event?.entryFee} 
-                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="number" required={true} />
+                    handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="number" required={true} min={0} />
                 
                 <EwLabelInputBox labelVal="Weitere Infos:" inputName="additionalInfo" inputVal={event?.additionalInfo} 
                     handleChange={(e: React.ChangeEvent) => changeEventData(e)} inputType="textarea" />
@@ -107,6 +107,7 @@ const EwEventForm = () => {
                     <input className="ew-input-check" type="checkbox" name="tea" onChange={e => changeExtras(e)}/> Tee-Stand
                     <input className="ew-input-check" type="checkbox" name="waffles" onChange={e => changeExtras(e)}/> Waffel-Stand
                 </label>
+                <input type="submit" value="Event erstellen" />
             </form>
         </div>
     )
