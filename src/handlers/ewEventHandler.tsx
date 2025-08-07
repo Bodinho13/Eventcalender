@@ -30,7 +30,7 @@ const createNewEvent = (newEvent: EwEvent): Promise<Response> => {
 
     return axios.post('http://localhost:5000/', raw, {
         headers: {
-            'Content-Type': 'application/json'
+            //'Content-Type': 'application/json'
         }
     })
         .then((response) => {
