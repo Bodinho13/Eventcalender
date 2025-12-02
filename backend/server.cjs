@@ -37,12 +37,12 @@ app.use((req, res, next) => {
 app.use("/events", eventRoutes);
 
 //MongoDB Connection
-mongoose.connect("mongodb+srv://PuffPuff:mongoPuff@eventmanagerdb.nwzxsht.mongodb.net/?retryWrites=true&w=majority&appName=EventmanagerDB"/*process.env.MONGODB_URI , {
+mongoose.connect(process.env.MONGODB_URI , {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-}*/)
+})
     .then(() => {
-        app.listen(/*process.env.PORT*/ 5000 , () => {
+        app.listen(process.env.PORT, () => {
             console.log('Connected to DB & listening on port 5000' /*+ process.env.dev.PORT*/);
         });
     })
