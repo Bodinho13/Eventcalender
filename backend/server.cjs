@@ -11,10 +11,12 @@ app.use(cors());
 var whitelist = ['http://localhost:5173']
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) != -1) {
       callback(null, true)
+      console.log("whitelisted:", origin)
     } else {
       callback(new Error('Not allowed by CORS'))
+      console.log("not whitelisted:", origin)
     }
   }
 }
@@ -25,7 +27,7 @@ const eventRoutes = require("./routes/eventRoutes.cjs");
 app.use(express.json());
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // update to match the domain you will make the request from
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     console.log(req.path(), req.method());
     next();
@@ -35,7 +37,7 @@ app.use((req, res, next) => {
 app.use("/events", eventRoutes);
 
 //MongoDB Connection
-mongoose.connect("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.1"/*process.env.MONGODB_URI , {
+mongoose.connect("mongodb+srv://PuffPuff:mongoPuff@eventmanagerdb.nwzxsht.mongodb.net/?retryWrites=true&w=majority&appName=EventmanagerDB"/*process.env.MONGODB_URI , {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }*/)

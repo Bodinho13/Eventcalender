@@ -9,13 +9,13 @@ const {
 const router = express.Router();
 
 //GET all events
-router.get("/", getAllEvents);
+router.get("/events", getAllEvents);
 
 //GET events on specific date
-router.get("/:date", getEventsByDate);
+router.get("/events/:date", getEventsByDate);
 
 //POST create a new event
-router.post("/", createNewEvent);
+router.post("/event", createNewEvent);
 
 //Export router
 module.exports = router;
