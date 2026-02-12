@@ -1,0 +1,29 @@
+{
+    "name": "eventkalender-backend",
+    "version": "0.1.2",
+    "description": "This is the backend of the eventkalender-webapp. It`s the gateway to the MongoDB-Clusters.",
+    "main": "dist/index.js",
+    "types": "dist/index",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "prestart": "npm run build",
+        "start": "node dist/index.js",
+        "dev": "tsx watch src/index.ts",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier . --write"
+    },
+    "dependencies": {
+        "dotenv": "^10.0.0",
+        "express": "^4.22.1",
+        "mongodb": "^6.21.0"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.25",
+        "@types/node": "^24.10.1",
+        "prettier": "^2.3.2",
+        "ts-node-dev": "^1.1.8",
+        "tsx": "^4.21.0",
+        "typescript": "^5.9.3"
+    }
+}

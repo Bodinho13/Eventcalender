@@ -1,6 +1,17 @@
 import axios from "axios";
 import { EwEvent } from "../EwEvent"; 
 
+const greetDBServer = (): Promise<String> => {
+    return axios.get("http://localhost:8080/events")
+        .then((response) => {
+            console.log("Server response", response);
+            return response.data;
+        })
+        .catch((error) => {
+            console.log("Server did not answer.", error);
+            return null;
+        })
+}
 
 const getAllEvents = (): Promise<Object[]> => {
     return axios.get('http://localhost:5000/')
@@ -28,7 +39,7 @@ const createNewEvent = (newEvent: EwEvent): Promise<Response> => {
         "extras": newEvent.extras,
     });
 
-    return axios.post('http://localhost:5000/', raw, {
+    return axios.post('http://localhost:5000/event', raw, {
         headers: {
             //'Content-Type': 'application/json'
         }
@@ -45,6 +56,7 @@ const createNewEvent = (newEvent: EwEvent): Promise<Response> => {
 }
 
 export {
+    greetDBServer,
     getAllEvents,
     createNewEvent
 }
