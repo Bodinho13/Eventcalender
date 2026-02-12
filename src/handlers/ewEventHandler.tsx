@@ -2,7 +2,7 @@ import axios from "axios";
 import { EwEvent } from "../EwEvent"; 
 
 const greetDBServer = (): Promise<String> => {
-    return axios.get("http://localhost:5000/")
+    return axios.get("http://localhost:8080/events")
         .then((response) => {
             console.log("Server response", response);
             return response.data;
