@@ -1,10 +1,20 @@
 import axios from "axios";
+import { EwEvent } from "../EwEvent"; 
 
-
-const getEventsAll = (): Promise<Object[]> => {
-    return axios.get('http://localhost:5000/events')
+const greetDBServer = (): Promise<String> => {
+    return axios.get("http://localhost:8080/events")
         .then((response) => {
-            console.log("All events were loaded.", response.data);
+            return response.data;
+        })
+        .catch((error) => {
+            console.log("Server did not answer.", error);
+            return null;
+        })
+}
+
+const getAllEvents = (): Promise<Object[]> => {
+    return axios.get('http://localhost:8080/events')
+        .then((response) => {
             return response.data;
         })
         .catch((error) => {
@@ -13,6 +23,19 @@ const getEventsAll = (): Promise<Object[]> => {
         });
 }
 
+const createNewEvent = (newEvent: EwEvent): Promise<Response> => {
+    return axios.post('http://localhost:8080/events', newEvent)
+        .then((response) => {
+            return response;
+        })
+        .catch((error) => {
+            console.error("There was an error creating a new event.", error);
+            return error;
+        });
+}
+
 export {
-    getEventsAll
+    greetDBServer,
+    getAllEvents,
+    createNewEvent
 }

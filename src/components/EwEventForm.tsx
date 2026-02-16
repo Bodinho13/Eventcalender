@@ -1,34 +1,12 @@
 import React, { useState } from "react";
 import { EwLabelInputBox } from "./EwLabelInputBox";
+import { createNewEvent } from "../handlers/ewEventHandler";
+import { EwEvent } from "../EwEvent";
 
 
 const EwEventForm = () => {
 
-    const [event, setEvent] = useState({
-        eventName: "",
-        host: "",
-        date: new Date(),
-        startTime: "",
-        endTime: "",
-        location: "",
-        eventCategory: "",
-        entryFee: 0,
-        additionalInfo: "",
-        extras: [""]
-        /*gimmicks: {
-            comedyshow: false,
-            dancefloor: false,
-            darts: false,
-            dj: false,
-            drivingService: false,
-            grill: false,
-            kicker: false,
-            livemusic: false,
-            pizza: false,
-            tea: false,
-            waffles: false
-        }*/
-    });
+    const [event, setEvent] = useState(new EwEvent( "", "", new Date(), "", "", "", "", 0, "", [""]));
 
     const changeEventData = (e: React.ChangeEvent) => {
         const target = e.target as HTMLFormElement;
@@ -52,9 +30,14 @@ const EwEventForm = () => {
         console.log(event);
     }
 
-    const submitEvent = (event: React.FormEvent) => {
-        console.log(event);
-        event.preventDefault();
+    const submitEvent = async (e: React.SubmitEvent) => {
+        console.log(e, event);
+        e.preventDefault();
+
+        const res = await createNewEvent(event);
+        if(res.status == 201){
+            
+        }
     }
 
     return(
