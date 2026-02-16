@@ -1,7 +1,7 @@
 // External Dependencies
 import {ObjectId} from "mongodb";
 import { collections } from "../services/database.service.js";
-import Event from "../models/Event.js";
+import {Event} from "../models/Event.js";
 import express from "express";
 // Global Config
 export const eventRouter = express.Router();
@@ -9,12 +9,8 @@ export const eventRouter = express.Router();
 eventRouter.use(express.json());
 // GET
 eventRouter.get("/", async (_req, res) => {
-    try{
-        const events = (await collections.events?.find({}).toArray());
-        res.status(200).send(events);
-    } catch(error: any) {
-        res.status(500).send(error.message);
-    }
+    const events = (await collections.events?.find({}).toArray());
+    res.status(200).json(events);
 });
 
 eventRouter.get("/:id", async (req, res) => {
@@ -33,16 +29,10 @@ eventRouter.get("/:id", async (req, res) => {
 });
 //POST
 eventRouter.post("/", async (req, res) => {
-    try {
-        const newEvent = req.body as Event;
-        const result = await collections.events?.insertOne(newEvent);
+    const newEvent: Event = req.body;
+    const result = await collections.events?.insertOne(newEvent);
 
-        result ? res.status(201).send(`Successfully created a new event with id ${result.insertedId}`) 
-            : res.status(500).send("Failed to create a new event.");
-    } catch (error: any) {
-        console.error(error);
-        res.status(400).send(error.message);
-    }
+    res.status(201).json({insertedId: result?.insertedId});
 });
 //PUT
 eventRouter.put("/:id", async (req, res) => {

@@ -30,12 +30,14 @@ const EwEventForm = () => {
         console.log(event);
     }
 
-    const submitEvent = (e: React.FormEvent) => {
-        console.log(e, "Data:" + event);
+    const submitEvent = async (e: React.SubmitEvent) => {
+        console.log(e, event);
         e.preventDefault();
 
-        const res = createNewEvent(event);
-        console.log("Neues Event angelegt?", res);
+        const res = await createNewEvent(event);
+        if(res.status == 201){
+            
+        }
     }
 
     return(
