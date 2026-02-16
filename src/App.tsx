@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css'
-import { EwCalender } from './components/EwCalender';
+import { EwCalender } from './components/ewCalender';
 import { EwEventForm } from './components/EwEventForm';
 import { EwSummary } from './components/EwSummary';
 import { EwMenu } from './components/EwMenu';

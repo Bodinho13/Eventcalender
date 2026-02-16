@@ -1,8 +1,8 @@
 import { EwDateTile } from "./EwDateTile";
 import { EwTextTile } from "./EwTextTile";
 import { calcDaysOfMonth, months, weekdays } from "../utils/useCalender";
-import { getAllEvents, greetDBServer } from "../handlers/ewEventHandler";
-import { useEffect, useState } from "react";
+import { greetDBServer } from "../handlers/ewEventHandler";
+import { useEffect } from "react";
 
 const EwCalender = () => {
     const today = new Date();
@@ -11,15 +11,15 @@ const EwCalender = () => {
     const days = [];
     const weekTiles = [];
 
-    const [events, setEvents] = useState(new Array<Object>);
+    //const [events, setEvents] = useState(new Array<Object>);
 
     useEffect(() => {
         greetDBServer()
             .then((res) => {
-                //if(res.length > 0) {
-                    //console.log("Initial alle Events laden.", res);
-                    //return res;
-                //}
+                if(res.length > 0) {
+                    console.log("Initial alle Events laden.", res);
+                    return res;
+                }
                 return res;
             })
             .catch((error) => {
