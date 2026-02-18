@@ -1,8 +1,9 @@
 import { EwDateTile } from "./EwDateTile";
 import { EwTextTile } from "./EwTextTile";
 import { calcDaysOfMonth, months, weekdays } from "../utils/useCalender";
-import { greetDBServer } from "../handlers/ewEventHandler";
-import { useEffect } from "react";
+import { getAllEvents } from "../handlers/ewEventHandler";
+import { useEffect, useState } from "react";
+import type { Event } from "../../shared/src/event";
 
 const EwCalender = () => {
     const today = new Date();
@@ -11,16 +12,14 @@ const EwCalender = () => {
     const days = [];
     const weekTiles = [];
 
-    //const [events, setEvents] = useState(new Array<Object>);
+    const [events, setEvents] = useState<Event[]>([]);
 
     useEffect(() => {
-        greetDBServer()
+        getAllEvents()
             .then((res) => {
                 if(res.length > 0) {
-                    console.log("Initial alle Events laden.", res);
-                    return res;
+                    setEvents(res);
                 }
-                return res;
             })
             .catch((error) => {
                 console.error("Events konnten nicht geladen werden!", error);
@@ -37,11 +36,8 @@ const EwCalender = () => {
     }
 
     for(let i = 0; i < daysOfMonth; i++){
-        //let event = events.find(e => new Date(today.getFullYear(), today.getMonth(), i + 1) === e.getDate());
-        if(i < today.getDate() - 1)
-            days.push(<EwDateTile dayOfMonth={i + 1} active={false} />);
-        else 
-            days.push(<EwDateTile dayOfMonth={i + 1} active={true} />);
+        let event = events.find(e => new Date(today.getFullYear(), today.getMonth(), i + 1) === new Date(e.date));
+        days.push(<EwDateTile dayOfMonth={i + 1} active={i >= today.getDate() -1} event={event} />);
     }
 
     return (
