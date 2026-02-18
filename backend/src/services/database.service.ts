@@ -1,6 +1,6 @@
 // External Dependencies
 import { Collection, MongoClient, Db } from "mongodb";
-import { Event } from "../models/Event.js";
+import type { Event } from "@shared/types";
 import dotenv from "dotenv";
 // Global Variables
 export let collections: { events?: Collection<Event> } = {};

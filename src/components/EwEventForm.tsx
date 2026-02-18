@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import { EwLabelInputBox } from "./EwLabelInputBox";
 import { createNewEvent } from "../handlers/ewEventHandler";
-import { EwEvent } from "../EwEvent";
+import { useNavigate } from "react-router-dom";
+import type { Event } from "../../shared/src/event";
 
 
 const EwEventForm = () => {
 
-    const [event, setEvent] = useState(new EwEvent( "", "", new Date(), "", "", "", "", 0, "", [""]));
+    const [event, setEvent] = useState<Event>({
+        id: "",
+        eventName: "",
+        host: "",
+        date: "",
+        startTime: "",
+        endTime: "",
+        location: "",
+        eventCategory: "",
+        entryFee: 0,
+        additionalInfo: "",
+        extras: []
+    });
+    
+    const navigate = useNavigate();
 
     const changeEventData = (e: React.ChangeEvent) => {
         const target = e.target as HTMLFormElement;
@@ -36,7 +51,7 @@ const EwEventForm = () => {
 
         const res = await createNewEvent(event);
         if(res.status == 201){
-            
+            navigate("/calender");
         }
     }
 

@@ -1,7 +1,7 @@
 // External Dependencies
 import {ObjectId} from "mongodb";
 import { collections } from "../services/database.service.js";
-import {Event} from "../models/Event.js";
+import type { Event } from "@shared/types";
 import express from "express";
 // Global Config
 export const eventRouter = express.Router();
@@ -9,7 +9,8 @@ export const eventRouter = express.Router();
 eventRouter.use(express.json());
 // GET
 eventRouter.get("/", async (_req, res) => {
-    const events = (await collections.events?.find({}).toArray());
+    const docs = await collections.events?.find({}).toArray();
+    const events = mapEvents(docs!);
     res.status(200).json(events);
 });
 
@@ -71,3 +72,20 @@ eventRouter.delete("/:id", async (req, res) => {
         res.status(400).send(error.message);
     }
 })
+
+const mapEvents = (docs: any[]): Event[] => {
+    return docs.map(doc => ({
+            id: doc._id.toString(),
+            eventName: doc.eventName,
+            host: doc.host,
+            date: doc.date,
+            startTime: doc.startTime,
+            endTime: doc.endTime,
+            location: doc.location,
+            eventCategory: doc.eventCategory,
+            entryFee: doc.entryFee,
+            additionalInfo: doc.additionalInfo,
+            extras: doc.extras
+        })
+    );
+}
