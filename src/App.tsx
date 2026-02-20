@@ -12,8 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={<EwMenu />} >
           <Route path="calender" element={<EwCalender />} />
-          <Route path="events" element={<EwSummary />} />
-          <Route path="new" element={<EwEventForm />} />
+          <Route path="summary" element={<EwSummary />} />
+          <Route path="event" element={<EwEventForm />} />
+          <Route path="event/:eventId" element={<EwEventForm />} />
           <Route path="*" element={
             <main style={{ padding: "1rem" }}>
               <p>There's nothing here (404)!</p>

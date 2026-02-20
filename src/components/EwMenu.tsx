@@ -21,7 +21,7 @@ const EwMenu = () => {
                             display: "block",
                             color: isActive ? "red" : "",
                         }
-                    }} to={'/events'}>
+                    }} to={'/summary'}>
                         Übersicht Events
                     </NavLink>
                 </section>
