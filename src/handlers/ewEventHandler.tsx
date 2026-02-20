@@ -1,17 +1,6 @@
 import axios from "axios";
 import type { Event } from "../../shared/src/event"; 
 
-/* const greetDBServer = (): Promise<String> => {
-    return axios.get("http://localhost:8080/events")
-        .then((response) => {
-            return response.data;
-        })
-        .catch((error) => {
-            console.log("Server did not answer.", error);
-            return null;
-        })
-} */
-
 const getAllEvents = (): Promise<Event[]> => {
     return axios.get<Event[]>('http://localhost:8080/events')
         .then((response) => {
@@ -20,6 +9,17 @@ const getAllEvents = (): Promise<Event[]> => {
         .catch((error) => {
             console.error("There was an error fetching the events.", error);
             return [];
+        });
+}
+
+const getEventById = (id: string): Promise<Event> => {
+    return axios.get<Event>(`http://localhost:8080/events/${id}`)
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.error("There was an error fetching the event with the id: " + id, error);
+            return error;
         });
 }
 
@@ -34,8 +34,22 @@ const createNewEvent = (newEvent: Event): Promise<Response> => {
         });
 }
 
+const updateEvent = (event: Event): Promise<Response> => {
+    const url = "http://localhost:8080/events/" + event.id;
+    console.log(event, url);
+    return axios.put(`http://localhost:8080/events/${event.id}`, event)
+        .then((response) => {
+            return response;
+        })
+        .catch((error) => {
+            console.error("There was an error updating the event.", error);
+            return error;
+        })
+}
+
 export {
-    //greetDBServer,
     getAllEvents,
-    createNewEvent
+    getEventById,
+    createNewEvent,
+    updateEvent
 }

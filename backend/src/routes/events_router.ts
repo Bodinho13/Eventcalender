@@ -20,9 +20,10 @@ eventRouter.get("/:id", async (req, res) => {
     try {
         const query = { _id: new ObjectId(id) };
         const event = (await collections.events?.findOne(query));
+        const events = mapEvents([event]);
 
         if (event) {
-            res.status(200).send(event);
+            res.status(200).send(events[0]);
         }
     } catch (error: any) {
         res.status(500).send(`Unable to find matching document with id: ${req.params.id}`);

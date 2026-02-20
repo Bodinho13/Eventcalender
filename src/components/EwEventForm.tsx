@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { EwLabelInputBox } from "./EwLabelInputBox";
-import { createNewEvent } from "../handlers/ewEventHandler";
-import { useNavigate } from "react-router-dom";
+import { getEventById, createNewEvent, updateEvent } from "../handlers/ewEventHandler";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import type { Event } from "../../shared/src/event";
 
 
@@ -22,6 +22,30 @@ const EwEventForm = () => {
     });
     
     const navigate = useNavigate();
+
+    const {eventId} = useParams<{ eventId: string }>();
+
+    const [searchParams] = useSearchParams();
+    const eventDate: string | null = searchParams.get("date");
+
+    useEffect (() => {
+        if(eventId) {
+            getEventById(eventId)
+                .then((res) => {    
+                    if(res) 
+                        setEvent(res);
+                    console.log(res);
+                })
+                .catch((error) => {
+                    console.error("Das Event konnte nicht geladen werden.", error);
+                });
+        } else {
+            if(eventDate){
+                const d = new Date(eventDate);
+                setEvent(values => ({...values, date: d.getFullYear() + "-" + String(d.getMonth() +1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0")}));
+            }
+        }
+    }, [eventId]);
 
     const changeEventData = (e: React.ChangeEvent) => {
         const target = e.target as HTMLFormElement;
@@ -45,7 +69,7 @@ const EwEventForm = () => {
         console.log(event);
     }
 
-    const submitEvent = async (e: React.SubmitEvent) => {
+    const onCreate = async (e: React.SubmitEvent) => {
         console.log(e, event);
         e.preventDefault();
 
@@ -55,10 +79,20 @@ const EwEventForm = () => {
         }
     }
 
+    const onUpdate = async (e: React.SubmitEvent) => {
+        console.log(e, event);
+        e.preventDefault();
+
+        const res = await updateEvent(event);
+        if(res.status == 200){
+            navigate("/calender");
+        }
+    }
+
     return(
         <div>
-            <h2>Neues Event anlegen</h2>
-            <form onSubmit={submitEvent}>
+            <h2>{eventId ? "Event bearbeiten" : "Neues Event anlegen"}</h2>
+            <form onSubmit={eventId? onUpdate : onCreate}>
                 <EwLabelInputBox labelVal="Name des Events:" inputName="eventName" inputVal={event?.eventName} 
                     handleChange={(e: React.ChangeEvent) => changeEventData(e)} required={true} />
 
@@ -109,7 +143,7 @@ const EwEventForm = () => {
                     <input className="ew-input-check" type="checkbox" name="tea" onChange={e => changeExtras(e)} checked={event.extras.indexOf("tea") > -1}/> Tee-Stand
                     <input className="ew-input-check" type="checkbox" name="waffles" onChange={e => changeExtras(e)} checked={event.extras.indexOf("waffles") > -1}/> Waffel-Stand
                 </label>
-                <input type="submit" value="Event erstellen" />
+                <input type="submit" value={eventId ? "Speichern" : "Erstellen"} />
             </form>
         </div>
     )
