@@ -12,7 +12,7 @@ const calcDaysOfMonth = (month: number, year: number):number => {
         return 28;
 }
 
-const months: string[] = ["Dezember", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+const months: string[] = ["Dezember", "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember", "Januar"];
 const weekdays: string[] = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
 
 const isSameDate = (date1: Date, date2: Date): boolean => {
