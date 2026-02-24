@@ -11,7 +11,7 @@ const EwEventForm = () => {
         id: "",
         eventName: "",
         host: "",
-        date: "",
+        date: new Date(),
         startTime: "",
         endTime: "",
         location: "",
@@ -42,7 +42,7 @@ const EwEventForm = () => {
         } else {
             if(eventDate){
                 const d = new Date(eventDate);
-                setEvent(values => ({...values, date: d.getFullYear() + "-" + String(d.getMonth() +1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0")}));
+                setEvent(values => ({...values, date: d}));
             }
         }
     }, [eventId]);
