@@ -8,8 +8,9 @@ import type { Event } from "../../shared/src/event";
 const EwCalender = () => {
     const today = new Date();
     const [month, setMonth] = useState(today.getMonth() + 1);
-    const firstOfMonth: Date = new Date(today.getFullYear(), month, 1);
-    const daysOfMonth: number = calcDaysOfMonth(month, today.getFullYear());
+    const [year, setYear] = useState(today.getFullYear());
+    const firstOfMonth: Date = new Date(year, month -1, 1);
+    const daysOfMonth: number = calcDaysOfMonth(month, year);
     const days = [];
     const weekTiles = [];
 
@@ -25,25 +26,45 @@ const EwCalender = () => {
             .catch((error) => {
                 console.error("Events konnten nicht geladen werden!", error);
             });
-    }, []);
+    }, [month, year]);
 
     for (let i = 0; i < weekdays.length; i++){
         weekTiles.push(<EwTextTile text={weekdays[i]} />)
     }
 
-    const daysLastMonth = calcDaysOfMonth(month - 1, today.getFullYear());
+    const daysLastMonth = calcDaysOfMonth(month - 1, year);
     for(let i = firstOfMonth.getDay() === 0 ? 6 : firstOfMonth.getDay() - 1; i > 0; i--) {
-        days.push(<EwDateTile date={new Date(today.getFullYear(), month -2, daysLastMonth - i + 1)} active={false} />)
+        days.push(<EwDateTile date={new Date(year, month -2, daysLastMonth - i + 1)} active={false} />)
     }
 
     for(let i = 1; i <= daysOfMonth; i++){
-        let event = events.find(e => isSameDate(new Date(today.getFullYear(), month - 1, i), new Date(e.date)));
-        days.push(<EwDateTile date={new Date(today.getFullYear(), month -1, i)} active={i >= today.getDate()} event={event} />);
+        let event = events.find(e => isSameDate(new Date(year, month - 1, i), new Date(e.date)));
+        days.push(<EwDateTile date={new Date(year, month -1, i)} active={new Date(year, month -1, i) >= today} event={event} />);
+    }
+
+    const changeMonth = (nextMonth: boolean) => {
+        if(nextMonth) {
+            if(month == 12) {
+                setMonth(1);
+                setYear(year + 1);
+            } else
+                setMonth(month +1);
+        } else {
+            if(month == 1) {
+                setMonth(12);
+                setYear(year -1);
+            } else 
+                setMonth(month -1);
+        }
     }
 
     return (
         <div>
-            <h2>{months[month]} {today.getFullYear()}</h2>
+            <div className="calenderTitle">
+                <span className="changeMonthSpan" onClick={() => changeMonth(false)}>{"<< " + months[month -1]}</span>
+                <h2>{months[month]} {year}</h2>
+                <span className="changeMonthSpan" onClick={() => changeMonth(true)}>{months[month +1] + " >>"}</span>
+            </div>
             <div className="calenderWeek">
                 {weekTiles}
                 {days}

@@ -41,9 +41,20 @@
   color: #888;
 }
 
+.calenderTitle {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
 .calenderWeek {
   display: flex;
   flex-wrap: wrap;
+}
+.changeMonthSpan {
+  align-self: center;
+  padding: 3px;
 }
 
 .dateTile {
