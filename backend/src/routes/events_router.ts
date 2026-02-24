@@ -7,13 +7,14 @@ import express from "express";
 export const eventRouter = express.Router();
 
 eventRouter.use(express.json());
-// GET
+// GET ALL
 eventRouter.get("/", async (_req, res) => {
     const docs = await collections.events?.find({}).toArray();
     const events = mapEvents(docs!);
     res.status(200).json(events);
 });
 
+//GET BY ID
 eventRouter.get("/:id", async (req, res) => {
     const id = req?.params?.id;
 
@@ -29,6 +30,29 @@ eventRouter.get("/:id", async (req, res) => {
         res.status(500).send(`Unable to find matching document with id: ${req.params.id}`);
     }
 });
+
+//GET By DATE Period
+eventRouter.get("/range", async (req, res) => {
+    const {start, end} = req.query;
+
+    if(!start || !end) {
+        return res.status(400).json({message: "Start and end date required."});
+    }
+    const startDate = new Date(start as string);
+    const endDate = new Date(end as string);
+    endDate.setHours(23, 59, 59, 999);
+
+    try {
+        const query = {date: { $gte: startDate, $lte: endDate }};
+        const docs = await collections.events?.find(query).toArray();
+        const events = mapEvents(docs!);
+
+        return res.status(200).send(events);
+    } catch (error: any) {
+        res.status(500).send(`Unable to find matching document in range ${startDate} and ${endDate}`);
+    }
+});
+
 //POST
 eventRouter.post("/", async (req, res) => {
     const newEvent: Event = req.body;
@@ -36,6 +60,7 @@ eventRouter.post("/", async (req, res) => {
 
     res.status(201).json({insertedId: result?.insertedId});
 });
+
 //PUT
 eventRouter.put("/:id", async (req, res) => {
     const id = req?.params?.id;
@@ -53,6 +78,7 @@ eventRouter.put("/:id", async (req, res) => {
         res.status(400).send(error.message);
     }
 });
+
 //DELETE
 eventRouter.delete("/:id", async (req, res) => {
     const id = req?.params?.id;

@@ -2,7 +2,7 @@ export type Event = {
     id: string;
     eventName: string;
     host: string;
-    date: string;
+    date: Date;
     startTime: string;
     endTime: string;
     location: string;
