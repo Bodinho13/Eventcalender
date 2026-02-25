@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { Event } from "../../shared/src/event"; 
+import { formatLocalDate } from "../utils/useCalender";
 
 const getAllEvents = (): Promise<Event[]> => {
     return axios.get<Event[]>('http://localhost:8080/events')
@@ -21,6 +22,17 @@ const getEventById = (id: string): Promise<Event> => {
             console.error("There was an error fetching the event with the id: " + id, error);
             return error;
         });
+}
+
+const getEventsInPeriod = (startDate: Date, endDate: Date): Promise<Event[]> => {
+    return axios.get<Event>('http://localhost:8080/events/range', {params: {start: formatLocalDate(startDate), end: formatLocalDate(endDate)}})
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.error("There was an error fetching events in the period "+ startDate + " - " + endDate , error);
+            return error;
+        })
 }
 
 const createNewEvent = (newEvent: Event): Promise<Response> => {
@@ -50,6 +62,7 @@ const updateEvent = (event: Event): Promise<Response> => {
 export {
     getAllEvents,
     getEventById,
+    getEventsInPeriod,
     createNewEvent,
     updateEvent
 }
