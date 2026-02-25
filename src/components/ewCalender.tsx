@@ -1,7 +1,7 @@
 import { EwDateTile } from "./EwDateTile";
 import { EwTextTile } from "./EwTextTile";
 import { calcDaysOfMonth, months, weekdays, isSameDate } from "../utils/useCalender";
-import { getAllEvents } from "../handlers/ewEventHandler";
+import { getEventsInPeriod } from "../handlers/ewEventHandler";
 import { useEffect, useState } from "react";
 import type { Event } from "../../shared/src/event";
 
@@ -17,7 +17,7 @@ const EwCalender = () => {
     const [events, setEvents] = useState<Event[]>([]);
 
     useEffect(() => {
-        getAllEvents()
+        getEventsInPeriod(firstOfMonth, new Date(year, month -1, daysOfMonth))
             .then((res) => {
                 if(res.length > 0) {
                     setEvents(res);

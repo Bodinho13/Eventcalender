@@ -3,6 +3,7 @@ import { EwLabelInputBox } from "./EwLabelInputBox";
 import { getEventById, createNewEvent, updateEvent } from "../handlers/ewEventHandler";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import type { Event } from "../../shared/src/event";
+import { formatLocalDate } from "../utils/useCalender";
 
 
 const EwEventForm = () => {
@@ -11,7 +12,7 @@ const EwEventForm = () => {
         id: "",
         eventName: "",
         host: "",
-        date: new Date(),
+        date: "",
         startTime: "",
         endTime: "",
         location: "",
@@ -42,7 +43,7 @@ const EwEventForm = () => {
         } else {
             if(eventDate){
                 const d = new Date(eventDate);
-                setEvent(values => ({...values, date: d}));
+                setEvent(values => ({...values, date: formatLocalDate(d)}));
             }
         }
     }, [eventId]);
